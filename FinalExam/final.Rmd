@@ -1,7 +1,7 @@
 ---
 title: "Final Exam"
-author: "Your Name"
-date: 
+author: "David Vander Pluym"
+date: "12 Dec 2020"
 output: pdf_document
 ---
 
@@ -10,7 +10,8 @@ output: pdf_document
 
 
 ### What does it mean to do reproducible research? Why is reproducibility important to the process of science? (5 pts)
-
+For your research to be reproducible someone else should be able to be handed your methods (and potentially your data as well) and be able to preform the exact same work as you every step of the way. If it is code that means being able to hand that code off to someone else and for them to be able to run it as well. If this is something done in the field or in the laboratory than there should be step by step notation so that someone can sit down and do the same work as you. 
+A main reason this is important is that for something to be considered confirmed in science you must be able to get the same result more than once (cold fusion is an often cited case). Another issue with it is having to reinvent the wheel in order to do research. By having your methods reproducible someone who wants to do similar work doesn't have to reinvent how the work was done, but can fit their data into the reproducible methods. This both tests that your methods are accurate and applicable beyond your focal data (species, system, etc) and it also saves time for research and allows people to build on your research and science in general more easily and at a quicker pace. If your methods are reproducible other researchers may take them and your research in directions you didn't think of, adding a whole new dimension to your work and helping to add to our broader knowledge base.
 
 
 
@@ -32,20 +33,14 @@ output: pdf_document
 ```{r}
 
 dat <- read.csv('redWineTrain.csv')
+install.packages("datasets")
+library("datasets")
 
+qualwine <- lm(alcohol ~ quality, data = dat)
 
-
-
-
-
-
+datwine <- predict(qualwine, newdata = dat)
 
 ```
-
-
-
-
-
 
 
 
@@ -65,21 +60,37 @@ dat <- read.csv('redWineTrain.csv')
 (See https://rapidapi.com/blog/most-popular-api/ for a list of APIs)
 
 ```{r}
+#install.packages("httr")
+#install.packages("jsonlite")
+#install.package("dbplyr")
+#library(httr)
+#library(jsonlite)
+#library(dbplyr)
+#yeju2 <- httr::GET('https://www.gbif.org/developer/species/Junco+phaeonotus')
+#Just wanted to show that could go that route. Spent too much time working with an api that didn't have data that worked well for plotting. 
+
+install.packages("rgbif")
+install.packages("rgeos")
+install.packages("ggplot2")
+library(rgbif)
+library(rgeos)
+library(ggplot2)
+
+yeju <-rgbif::occ_search(scientificName = "Junco phaeonotus", limit = 5000, return = 'data')[[3]]
 
 
+yejubox <- subset(yeju, select = c(stateProvince,month))
 
 
+yeju_boxplot <- ggplot(yejubox, aes(group=stateProvince, x=factor(stateProvince), y = month))
 
-
-
+yeju_boxplot +
+  geom_boxplot()
 
 
 
 
 ```
-
-
-
 
 
 
@@ -94,17 +105,17 @@ dat <- read.csv('redWineTrain.csv')
 
 
 ```{r}
+install.packages("spatstat")
+library(rgbif)
+library(rgeos)
+library(spatstat)
+
+yeju <-rgbif::occ_search(scientificName = "Junco phaeonotus", limit = 5000, return = 'data')[[3]]
 
 
-
-
+X <-ppx(data = yeju)
+pairdist(X)
 ```
-
-
-
-
-
-
 
 
 
@@ -132,41 +143,10 @@ dat <- read.csv('redWineTrain.csv')
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### Choose a software license that is one you would feel comfortable using and defend it's use over other licenses (5 pts)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Creative Commons NC 4.0 (https://creativecommons.org/licenses/by-nc/4.0/) license is the one that I have generally used for things such as photography. This license allows non commercial users such as researchers and educators to freely use my work as long as they credit where it comes from. As a researcher and at times educator I use others' work and feel it is only right to allow others to use mine as well. I also believe that research generally works best in the open with people able to build upon each others' work. Attribution is a fair compensation for such work. However I do not believe in the completely free and open licenses as large commercial companies can exploit hard work. These companies can afford reasonable license fees without stifling their business and it better puts the control of my product into my hands. Small commercial projects that can be helpful for research are not restricted by use and it does not unfairly hamper them. As an example I upload my recordings of birds onto an open source website (xeno-canto.org) where they have been freely used in research which resulted in publications and have been used in commercial books on bird vocalizations. The fair compensation I received for this use was a free copy of the book. No license can keep bad actors from using your work in ways that you do not wish but it does give you recourse.
+I feel that this license is a fair compromise between being open source for education and research and receiving compensation from those who wish to use my work to potentially profit off it. 
 
 
 
@@ -180,13 +160,7 @@ dat <- read.csv('redWineTrain.csv')
 + R
 + git
 + R markdown
-+ LaTeX
-+ SQL
-+ parallel computing packages
-+ Docker
-+ the tidyverse
-+ a Linux OS
-+ bash shell
+
 
 
 
@@ -196,7 +170,7 @@ dat <- read.csv('redWineTrain.csv')
 
 ### What did you enjoy most about the course?
 
-
+The later lectures such as where we went over raster and worked and discussed it. 
 
 
 
@@ -208,7 +182,8 @@ dat <- read.csv('redWineTrain.csv')
 
 
 ### What could be improved for future iterations (especially as it will be geared more exclusively towards undergraduates in the future)?
-
+I realize this was a challenging semester.Here are some things that I think would work better.
+More actual teaching the content rather than brief mentions of content in the lectures. By that I mean more of what different types of code do and where and when to use them. What is in the homework and tested on should be better covered in lectures. Narrow the focus of the class rather than covering a lot at a breakneck speed without going into enough detail for people to really understand it. Choosing fewer topics with better coverage of them will help. With this in mind, I suggest spending less time dedicated to paper discussions as this took time away from the core of what was being taught. 
 
 
 
