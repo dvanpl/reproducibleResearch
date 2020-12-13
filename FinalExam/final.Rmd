@@ -134,9 +134,11 @@ pairdist(X)
 
 ```{r}
 
-
-
-
+vec <- c(1,2,3,4,5,6,7,8,9,10)
+vec_next <-vec[!vec %in% c("1") ]
+vec_next_mean <-mean(vec_next)
+vec_remove <- vec[!vec %in% 1:10]
+vec_remove_mean <- mean(vec_remove)
 
 
 ```
